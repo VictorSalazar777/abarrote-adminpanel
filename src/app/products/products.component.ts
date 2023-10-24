@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProductsService } from '../services/products.service';
+import { ProductshttpService } from '../services/productshttp.service';
 import { PeriodicElement } from '../services/periodicelement';
-import {MatTableModule} from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 
 
 @Component({
@@ -14,14 +14,14 @@ import {MatTableModule} from '@angular/material/table';
 })
 export class ProductsComponent {
 
-  productsService: ProductsService = inject(ProductsService)
+  productshttpService: ProductshttpService = inject(ProductshttpService)
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource: PeriodicElement[] = []
 
   constructor() {
-    this.productsService.getProducts().then((products: PeriodicElement[])=>
-      this.dataSource = products
-    )
+
+    this.productshttpService.getProducts()
+      .subscribe(products => this.dataSource = products)
   }
 
 }
