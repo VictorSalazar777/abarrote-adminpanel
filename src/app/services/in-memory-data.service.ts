@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { InMemoryDbService, RequestInfo } from 'angular-in-memory-web-api';
-import { PeriodicElement } from './periodicelement';
+import { Product } from './product';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ export class InMemoryDataService implements InMemoryDbService {
 
     createDb(){
 
-    const products: PeriodicElement[] = [
+    const products: Product[] = [
       {id: 1, position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
       {id: 2, position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
       {id: 3, position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},

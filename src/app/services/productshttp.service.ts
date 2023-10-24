@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { MessageService } from './message.service';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { PeriodicElement } from './periodicelement';
+import { Product } from './product';
 
 @Injectable({
   providedIn: 'root'
@@ -26,19 +26,19 @@ export class ProductshttpService {
     this.messageService.add(`ProductshttpService: ${message}`);
   }
 
-  getProducts(): Observable<PeriodicElement[]> {
-    return this.http.get<PeriodicElement[]>(this.productsUrl)
+  getProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.productsUrl)
       .pipe(
         tap(_ => this.log('fetched products')),
-        catchError(this.handleError<PeriodicElement[]>('getProducts', []))
+        catchError(this.handleError<Product[]>('getProducts', []))
       );
   }
 
-  getProduct(id: number): Observable<PeriodicElement> {
+  getProduct(id: number): Observable<Product> {
     const url = `${this.productsUrl}/${id}`;
-    return this.http.get<PeriodicElement>(url).pipe(
+    return this.http.get<Product>(url).pipe(
       tap(_ => this.log(`fetched product id=${id}`)),
-      catchError(this.handleError<PeriodicElement>(`getProduct id = ${id}`))
+      catchError(this.handleError<Product>(`getProduct id = ${id}`))
     );
   }
 

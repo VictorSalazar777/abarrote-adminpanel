@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductshttpService } from '../services/productshttp.service';
-import { PeriodicElement } from '../services/periodicelement';
+import { Product } from '../services/product';
 import { MatTableModule } from '@angular/material/table';
 
 
@@ -16,7 +16,7 @@ export class ProductsComponent {
 
   productshttpService: ProductshttpService = inject(ProductshttpService)
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource: PeriodicElement[] = []
+  dataSource: Product[] = []
 
   constructor() {
 

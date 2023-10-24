@@ -1,4 +1,4 @@
-  export interface PeriodicElement {
+  export interface Product {
     id: number;
     name: string;
     position: number;
