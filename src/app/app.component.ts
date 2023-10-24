@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HomeComponent } from './home/home.component';
+import { ProductsComponent } from './products/products.component';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  imports: [HomeComponent, RouterModule],
+  imports: [ProductsComponent, RouterModule],
 })
 export class AppComponent {
   title = 'adminpanel';
