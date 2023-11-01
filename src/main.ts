@@ -11,10 +11,11 @@ bootstrapApplication(AppComponent,
   {
     providers: [
       provideRouter(routeConfig),
-      importProvidersFrom(HttpClientModule,
-        HttpClientInMemoryWebApiModule.forRoot(
-        InMemoryDataService, { dataEncapsulation: false }
-      ))
+      importProvidersFrom(HttpClientModule)
+      // importProvidersFrom(HttpClientModule,
+      //   HttpClientInMemoryWebApiModule.forRoot(
+      //   InMemoryDataService, { dataEncapsulation: false }
+      // ))
     ]
   }
 )

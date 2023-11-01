@@ -3,15 +3,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { MessageService } from './message.service';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Product } from './product';
+import { Product } from '../model/product';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class ProductshttpService {
+export class ProductsService {
 
-  private productsUrl = 'api/products';  // URL to web api
+  private productsUrl = 'http://localhost:8080/abarrote/products';  // URL to web api
 
   constructor(
     private http: HttpClient,
@@ -19,14 +19,14 @@ export class ProductshttpService {
   }
 
   ngOnInit(): void {
-    this.getProducts();
+    this.getAllProducts();
   }
 
   private log(message: string) {
-    this.messageService.add(`ProductshttpService: ${message}`);
+    this.messageService.add(`ProductsService: ${message}`);
   }
 
-  getProducts(): Observable<Product[]> {
+  getAllProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.productsUrl)
       .pipe(
         tap(_ => this.log('fetched products')),
@@ -34,7 +34,7 @@ export class ProductshttpService {
       );
   }
 
-  getProduct(id: number): Observable<Product> {
+  getProductById(id: number): Observable<Product> {
     const url = `${this.productsUrl}/${id}`;
     return this.http.get<Product>(url).pipe(
       tap(_ => this.log(`fetched product id=${id}`)),

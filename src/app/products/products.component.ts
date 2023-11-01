@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProductshttpService } from '../services/productshttp.service';
-import { Product } from '../services/product';
+import { ProductsService } from '../services/products.service';
+import { Product } from '../model/product';
 import { MatTableModule } from '@angular/material/table';
 
 
@@ -14,13 +14,13 @@ import { MatTableModule } from '@angular/material/table';
 })
 export class ProductsComponent {
 
-  productshttpService: ProductshttpService = inject(ProductshttpService)
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  productsService: ProductsService = inject(ProductsService)
+  displayedColumns: string[] = ['id', 'name', 'categoryId'];
   dataSource: Product[] = []
 
   constructor() {
 
-    this.productshttpService.getProducts()
+    this.productsService.getAllProducts()
       .subscribe(products => this.dataSource = products)
   }
 
