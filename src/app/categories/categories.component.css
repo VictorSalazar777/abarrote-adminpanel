@@ -1,3 +1,64 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
 table {
     width: 100%;
   }
+
+/* Row hover bakground */
+.mat-mdc-row:hover .mat-mdc-cell{
+  background-color: #fff5a2;
+}
+
+td.mat-column-star {
+  width: 20px;
+  padding-right: 8px;
+}
+
+th.mat-column-position, td.mat-column-position {
+  padding-left: 8px;
+}
+
+.mat-mdc-table-sticky-border-elem-right {
+  border-left: 1px solid #e0e0e0;
+}
+
+.mat-mdc-table-sticky-border-elem-left {
+  border-right: 1px solid #e0e0e0;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+  float: right;
+}
+
+.example-element-diagram {
+  min-width: 80px;
+  padding: 8px;
+  font-weight: lighter;
+  margin: 8px 0;
+}
+
+.crud-button {
+  padding: 10px;
+  margin-left: 18px;
+  margin-right: 18px;
+}
+
+.div-new-category {
+  padding: 8px;
+  height: 100px;
+  background: gainsboro;
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}

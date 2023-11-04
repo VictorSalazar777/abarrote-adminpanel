@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http'
 import { MessageService } from './message.service';
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { Product } from '../model/product';
 
 @Injectable({
@@ -29,16 +29,35 @@ export class ProductsService {
   getAllProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.productsUrl)
       .pipe(
-        tap(_ => this.log('fetched products')),
-        catchError(this.handleError<Product[]>('getProducts', []))
+        catchError(this.handleError<Product[]>('getAllProducts', []))
       );
   }
 
   getProductById(id: number): Observable<Product> {
     const url = `${this.productsUrl}/${id}`;
     return this.http.get<Product>(url).pipe(
-      tap(_ => this.log(`fetched product id=${id}`)),
-      catchError(this.handleError<Product>(`getProduct id = ${id}`))
+      catchError(this.handleError<Product>(`getProductById id = ${id}`))
+    );
+  }
+
+  createProduct(product: Product): Observable<Product> {
+    return this.http.post<Product>(this.productsUrl, product)
+      .pipe(
+        catchError(this.handleError<Product>('createProduct'))
+      )
+  }
+
+  updateProduct(id: number, product: Product): Observable<Product> {
+    const url = `${this.productsUrl}/${id}`;
+    return this.http.put<Product>(url, product).pipe(
+      catchError(this.handleError<Product>(`updateProduct id = ${id}`))
+    );
+  }
+
+  deleteProduct(id: number): Observable<String> {
+    const url = `${this.productsUrl}/${id}`;
+    return this.http.delete<String>(url).pipe(
+      catchError(this.handleError<String>(`deleteProduct id = ${id}`))
     );
   }
 

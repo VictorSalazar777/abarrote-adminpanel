@@ -9,7 +9,7 @@ import { ProductReport } from '../model/productreport';
 })
 export class ProductreportsService {
 
-  private productsUrl = 'http://localhost:8080/abarrote/productreports'; 
+  private productReportsUrl = 'http://localhost:8080/abarrote/productreports'; 
 
   constructor(
     private http: HttpClient,
@@ -25,21 +25,39 @@ export class ProductreportsService {
   }
 
   getAllProductReports(): Observable<ProductReport[]> {
-    return this.http.get<ProductReport[]>(this.productsUrl)
+    return this.http.get<ProductReport[]>(this.productReportsUrl)
       .pipe(
-        tap(_ => this.log('fetched products')),
-        catchError(this.handleError<ProductReport[]>('getProducts', []))
+        catchError(this.handleError<ProductReport[]>('getAllProductReports', []))
       );
   }
 
   getProductReportById(id: number): Observable<ProductReport> {
-    const url = `${this.productsUrl}/${id}`;
+    const url = `${this.productReportsUrl}/${id}`;
     return this.http.get<ProductReport>(url).pipe(
-      tap(_ => this.log(`fetched product id=${id}`)),
-      catchError(this.handleError<ProductReport>(`getProduct id = ${id}`))
+      catchError(this.handleError<ProductReport>(`getProductReportById id = ${id}`))
     );
   }
 
+  createProductReport(productReport: ProductReport): Observable<ProductReport> {
+    return this.http.post<ProductReport>(this.productReportsUrl, productReport)
+      .pipe(
+        catchError(this.handleError<ProductReport>('createProductReport'))
+      )
+  }
+
+  updateProductReport(id: number, productReport: ProductReport): Observable<ProductReport> {
+    const url = `${this.productReportsUrl}/${id}`;
+    return this.http.put<ProductReport>(url, productReport).pipe(
+      catchError(this.handleError<ProductReport>(`updateProductReport id = ${id}`))
+    );
+  }
+
+  deleteProductReport(id: number): Observable<String> {
+    const url = `${this.productReportsUrl}/${id}`;
+    return this.http.delete<String>(url).pipe(
+      catchError(this.handleError<String>(`deleteProductReport id = ${id}`))
+    );
+  }
 
     /**
  * Handle Http operation that failed.
