@@ -1,9 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { MessageService } from './message.service';
-import { Observable, of } from 'rxjs';
-import { Category } from '../model/category';
-import { catchError, tap } from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {MessageService} from './message.service';
+import {catchError, Observable, of} from 'rxjs';
+import {Category} from '../model/category';
 
 @Injectable({
   providedIn: 'root'
@@ -26,10 +25,7 @@ export class CategoriesService {
   }
 
   getAllCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.categoriesUrl)
-      .pipe(
-        catchError(this.handleError<Category[]>('getCategories', []))
-      );
+    return this.http.get<Category[]>(this.categoriesUrl);
   }
 
   getCategoryById(id: number): Observable<Category> {
@@ -61,14 +57,16 @@ export class CategoriesService {
   }
 
   /**
-* Handle Http operation that failed.
-* Let the app continue.
-*
-* @param operation - name of the operation that failed
-* @param result - optional value to return as the observable result
-*/
+   * Handle Http operation that failed.
+   * Let the app continue.
+   *
+   * @param operation - name of the operation that failed
+   * @param result - optional value to return as the observable result
+   */
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
+
+      console.error('Hubo un error!')
 
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead

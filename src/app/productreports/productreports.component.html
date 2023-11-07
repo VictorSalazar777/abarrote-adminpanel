@@ -1,34 +1,62 @@
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<section>
+
+  <mat-card>
+    <mat-card-actions align="end">
+      <button mat-raised-button color="primary" (click)="showCreateProductReportDialog()">Nuevo Reporte de Producto</button>
+    </mat-card-actions>
+  </mat-card>
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
-  
+
     <!-- id Column -->
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef> Id </th>
       <td mat-cell *matCellDef="let element"> {{element.id}} </td>
     </ng-container>
-  
+
     <ng-container matColumnDef="productId">
       <th mat-header-cell *matHeaderCellDef> Product Id </th>
       <td mat-cell *matCellDef="let element"> {{element.productId} </td>
     </ng-container>
 
     <ng-container matColumnDef="price">
-        <th mat-header-cell *matHeaderCellDef> Price </th>
-        <td mat-cell *matCellDef="let element"> {{element.price} </td>
+      <th mat-header-cell *matHeaderCellDef> Price </th>
+      <td mat-cell *matCellDef="let element"> {{element.price} </td>
     </ng-container>
 
     <ng-container matColumnDef="oldPrice">
-        <th mat-header-cell *matHeaderCellDef> Old Price </th>
-        <td mat-cell *matCellDef="let element"> {{element.oldPrice} </td>
+      <th mat-header-cell *matHeaderCellDef> Old Price </th>
+      <td mat-cell *matCellDef="let element"> {{element.oldPrice} </td>
     </ng-container>
-  
+
     <ng-container matColumnDef="expirationDate">
-        <th mat-header-cell *matHeaderCellDef> Expiration Date </th>
-        <td mat-cell *matCellDef="let element"> {{element.expirationDate} </td>
+      <th mat-header-cell *matHeaderCellDef> Expiration Date </th>
+      <td mat-cell *matCellDef="let element"> {{element.expirationDate} </td>
     </ng-container>
-  
+
+    <ng-container matColumnDef="options">
+      <th mat-header-cell *matHeaderCellDef aria-label="">&nbsp;</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="click options">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" >
+          <button mat-menu-item (click)="showUpdateProductReportDialog(element.id)">
+            <span>Modificar</span>
+          </button>
+          <button mat-menu-item (click)="showDeleteProductReportDialog(element.id)">
+            <span>Eliminar</span>
+          </button>
+        </mat-menu>
+      </td>
+    </ng-container>
+
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+
+</section>

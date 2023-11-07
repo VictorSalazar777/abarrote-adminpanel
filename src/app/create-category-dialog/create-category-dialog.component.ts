@@ -18,7 +18,9 @@ export class CreateCategoryDialogComponent {
 
   constructor (
     public dialogRef: MatDialogRef<CreateCategoryDialogComponent>, 
-      @Inject(MAT_DIALOG_DATA) public data: Category
+    
+    @Inject(MAT_DIALOG_DATA) 
+    public data: Category
   ) {}
 
   cancel() {

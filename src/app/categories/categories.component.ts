@@ -1,17 +1,14 @@
 import { Component, inject } from '@angular/core';
-import { CategoriesService } from '../services/categories.service';
-import { Category } from '../model/category';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { NgIf } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { CategoriesService } from '../services/categories.service';
+import { Category } from '../model/category';
 import { CreateCategoryDialogComponent } from '../create-category-dialog/create-category-dialog.component';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { FormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { NgIf } from '@angular/common';
-import {MatCardModule} from '@angular/material/card';
 import { DeleteCategoryDialogComponent } from '../delete-category-dialog/delete-category-dialog.component';
 import { UpdateCategoryDialogComponent } from '../update-category-dialog/update-category-dialog.component';
 
@@ -22,8 +19,7 @@ import { UpdateCategoryDialogComponent } from '../update-category-dialog/update-
   styleUrls: ['./categories.component.css'],
   standalone: true,
   imports: [MatTableModule, MatButtonModule, MatIconModule, 
-    CreateCategoryDialogComponent, MatDialogModule, NgIf, MatCardModule,
-  DeleteCategoryDialogComponent],
+     MatDialogModule, NgIf, MatCardModule],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0'})),
@@ -44,7 +40,7 @@ export class CategoriesComponent {
       .subscribe(categories => this.dataSource = categories)
   }
 
-  showAddCategoryDialog() {
+  showCreateCategoryDialog() {
     const dialogRef = this.dialog.open(CreateCategoryDialogComponent, { data: { id: 0, name: '' } });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -83,7 +79,6 @@ export class CategoriesComponent {
         }
       }
     })
-
   }
 
   showDeleteCategoryDialog(id: number) {
@@ -100,7 +95,6 @@ export class CategoriesComponent {
           });
         }
       }
-    
     });
   }
 

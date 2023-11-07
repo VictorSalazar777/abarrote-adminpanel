@@ -1,1 +1,24 @@
-<p>create-product-dialog works!</p>
+<h1 mat-dialog-title>Nuevo producto</h1>
+<div mat-dialog-content>
+
+  <form>
+    <p>
+      <mat-form-field>
+        <mat-label>Nombre</mat-label>
+        <input matInput [(ngModel)]="product.name" name="productName">
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field>
+        <mat-label>Categoría</mat-label>
+        <mat-select [(ngModel)]="product.categoryId" name="selectedCategoryId">
+          <mat-option *ngFor="let category of categories" [value]="category.id">{{category.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </p>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-button [mat-dialog-close]="product">Crear</button>
+</div>

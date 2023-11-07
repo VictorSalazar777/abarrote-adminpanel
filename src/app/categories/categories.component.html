@@ -2,7 +2,7 @@
 <section>
   <mat-card>
     <mat-card-actions align="end">
-      <button mat-raised-button color="primary" (click)="showAddCategoryDialog()">Nueva categoría</button>
+      <button mat-raised-button color="primary" (click)="showCreateCategoryDialog()">Nueva categoría</button>
     </mat-card-actions>
   </mat-card>
 
@@ -42,7 +42,8 @@
 
           <mat-card>
             <mat-card-actions align="end">
-              <button mat-raised-button color="primary" (click)="showUpdateCategoryDialog(element.id)">Actualizar</button>
+              <button mat-raised-button color="primary"
+                (click)="showUpdateCategoryDialog(element.id)">Modificar</button>
             </mat-card-actions>
           </mat-card>
 
@@ -51,7 +52,6 @@
               <button mat-raised-button color="primary" (click)="showDeleteCategoryDialog(element.id)">Eliminar</button>
             </mat-card-actions>
           </mat-card>
-
 
         </div>
       </td>
