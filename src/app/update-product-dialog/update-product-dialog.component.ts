@@ -7,11 +7,12 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
 import {NgFor} from "@angular/common";
+import {Product} from "../model/product";
 
 
 export interface UpdateProductDialogData {
-  productName: string,
-  selectedCategoryId: number
+  product: Product,
+  categories: Category[]
 }
 
 @Component({
@@ -24,13 +25,10 @@ export interface UpdateProductDialogData {
 })
 export class UpdateProductDialogComponent {
 
-  public output: UpdateProductDialogData = {productName: '', selectedCategoryId: 0}
-
-
   constructor(
     public dialogRef: MatDialogRef<UpdateProductDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public categories: Category[] | undefined
+    public data: UpdateProductDialogData
   ) {
   }
 

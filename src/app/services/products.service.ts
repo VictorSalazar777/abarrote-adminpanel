@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http'
 import {MessageService} from './message.service';
-import {Observable, of} from 'rxjs';
-import {catchError} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 import {Product} from '../model/product';
 
 @Injectable({
@@ -27,59 +26,26 @@ export class ProductsService {
   }
 
   getAllProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.productsUrl)
-      .pipe(
-        catchError(this.handleError<Product[]>('getAllProducts', []))
-      );
+    return this.http.get<Product[]>(this.productsUrl);
   }
 
   getProductById(id: number): Observable<Product> {
     const url = `${this.productsUrl}/${id}`;
-    return this.http.get<Product>(url).pipe(
-      catchError(this.handleError<Product>(`getProductById id = ${id}`))
-    );
+    return this.http.get<Product>(url);
   }
 
   createProduct(product: Product): Observable<Product> {
-    return this.http.post<Product>(this.productsUrl, product)
-      .pipe(
-        catchError(this.handleError<Product>('createProduct'))
-      )
+    return this.http.post<Product>(this.productsUrl, product);
   }
 
   updateProduct(id: number, product: Product): Observable<Product> {
     const url = `${this.productsUrl}/${id}`;
-    return this.http.put<Product>(url, product).pipe(
-      catchError(this.handleError<Product>(`updateProduct id = ${id}`))
-    );
+    return this.http.put<Product>(url, product);
   }
 
   deleteProduct(id: number): Observable<String> {
     const url = `${this.productsUrl}/${id}`;
-    return this.http.delete<String>(url).pipe(
-      catchError(this.handleError<String>(`deleteProduct id = ${id}`))
-    );
-  }
-
-  /**
-   * Handle Http operation that failed.
-   * Let the app continue.
-   *
-   * @param operation - name of the operation that failed
-   * @param result - optional value to return as the observable result
-   */
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
-      this.log(`${operation} failed: ${error.message}`);
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
+    return this.http.delete<String>(url);
   }
 
 }

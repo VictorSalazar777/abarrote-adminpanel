@@ -10,10 +10,7 @@ import {ProductsService} from '../services/products.service';
 import {CategoriesService} from '../services/categories.service';
 import {Product} from '../model/product';
 import {CreateProductDialogComponent,} from '../create-product-dialog/create-product-dialog.component';
-import {
-  UpdateProductDialogComponent,
-  UpdateProductDialogData
-} from '../update-product-dialog/update-product-dialog.component';
+import {UpdateProductDialogComponent} from '../update-product-dialog/update-product-dialog.component';
 import {SimpleMessageDialogComponent} from "../simple-message-dialog/simple-message-dialog.component";
 import {DeleteProductDialogComponent} from "../delete-product-dialog/delete-product-dialog.component";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -24,7 +21,6 @@ export interface ProductInfo {
   name: string,
   categoryName: string
 }
-
 
 @Component({
   selector: 'app-products',
@@ -38,7 +34,7 @@ export class ProductsComponent {
 
   productsService: ProductsService = inject(ProductsService);
   categoriesService: CategoriesService = inject(CategoriesService);
-  displayedColumns: string[] = ['id', 'name', 'categoryName', 'options'];
+  displayedColumns: string[] = ['id', 'categoryName', 'name', 'options'];
   dataSource: ProductInfo[] = [];
 
   constructor(public dialog: MatDialog) {
@@ -46,7 +42,7 @@ export class ProductsComponent {
     this.categoriesService.getAllCategories().subscribe({
       next: (categories) => {
         if (categories.length == 0) {
-          this.showShouldAddCategoriesFirstDialog();
+          this.showNoCategoriesFoundDialog();
           return;
         }
 
@@ -79,7 +75,7 @@ export class ProductsComponent {
       next: (categories) => {
 
         if (categories.length == 0) {
-          this.showShouldAddCategoriesFirstDialog();
+          this.showNoCategoriesFoundDialog();
           return;
         }
 
@@ -108,34 +104,50 @@ export class ProductsComponent {
 
 
   showUpdateProductDialog(id: number) {
-    this.categoriesService.getAllCategories().subscribe({
-        next: (categories) => {
-
-          const dialogRef = this.dialog.open(UpdateProductDialogComponent, {data: categories});
-
-          dialogRef.afterClosed().subscribe(result => {
-            if (result !== undefined) {
-              const productName = (result as UpdateProductDialogData).productName;
-              const categoryId = (result as UpdateProductDialogData).selectedCategoryId;
-              const product: Product = {id: 0, name: productName, categoryId: categoryId};
-              if (product.name.trim() !== '' && product.categoryId !== 0) {
-                this.productsService.updateProduct(id, product).subscribe({
-                  next: response => {
-                    console.log('product updated');
-                  },
-                });
+    this.productsService.getProductById(id).subscribe({
+        next: (product) => {
+          this.categoriesService.getAllCategories().subscribe({
+            next: (categories) => {
+              if (categories.length == 0) {
+                this.showNoCategoriesFoundDialog();
+                return;
               }
-            }
+
+              const dialogRef = this.dialog.open(UpdateProductDialogComponent, {
+                data: {
+                  product: product,
+                  categories: categories
+                }
+              });
+
+              dialogRef.afterClosed().subscribe(result => {
+                if (result !== undefined) {
+                  let updatedProduct = (result as Product);
+                  this.productsService.updateProduct(updatedProduct.id, updatedProduct).subscribe({
+                    next: (product: Product) => {
+                      console.log(product);
+                    },
+                    error: (e: HttpErrorResponse) => {
+                      this.showErrorDialog(e);
+                    },
+                  });
+                }
+              });
+
+            },
+            error: (e: HttpErrorResponse) => {
+              this.showErrorDialog(e);
+            },
           });
+
         },
         error: (e: HttpErrorResponse) => {
-          console.log(e);
-          this.showCantLoadCategoriesMessageDialog();
+          this.showErrorDialog(e);
+          return;
         },
         complete: () => console.log('')
       }
     );
-
 
   }
 
@@ -160,8 +172,16 @@ export class ProductsComponent {
     this.dialog.open(SimpleMessageDialogComponent, {data: 'No se pudo cargar categorías'});
   }
 
-  showShouldAddCategoriesFirstDialog() {
+  showNoCategoriesFoundDialog() {
     this.dialog.open(SimpleMessageDialogComponent, {data: 'No hay categorías!!'});
+  }
+
+  showNoProductsFoundDialog() {
+    this.dialog.open(SimpleMessageDialogComponent, {data: 'No hay productos!!'});
+  }
+
+  showErrorDialog(e: HttpErrorResponse) {
+    this.dialog.open(SimpleMessageDialogComponent, {data: `Error: ${e.message}`});
   }
 
 }
