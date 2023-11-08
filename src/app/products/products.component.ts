@@ -19,7 +19,8 @@ export interface ProductInfo {
   id: number,
   categoryId: number,
   name: string,
-  categoryName: string
+  categoryName: string,
+  price: number,
 }
 
 @Component({
@@ -34,7 +35,7 @@ export class ProductsComponent {
 
   productsService: ProductsService = inject(ProductsService);
   categoriesService: CategoriesService = inject(CategoriesService);
-  displayedColumns: string[] = ['id', 'categoryName', 'name', 'options'];
+  displayedColumns: string[] = ['id', 'categoryName', 'name', 'price', 'options'];
   dataSource: ProductInfo[] = [];
 
   constructor(public dialog: MatDialog) {
@@ -56,7 +57,8 @@ export class ProductsComponent {
             products.forEach(product => {
                 let productInfo: ProductInfo = {
                   id: product.id, categoryId: product.categoryId,
-                  name: product.name, categoryName: categoriesMap.get(product.categoryId) ?? ''
+                  name: product.name, categoryName: categoriesMap.get(product.categoryId) ?? '',
+                  price: product.price
                 };
                 myProductsInfo.push(productInfo);
               }
@@ -154,17 +156,23 @@ export class ProductsComponent {
   showDeleteProductDialog(id: number) {
     const dialogRef = this.dialog.open(DeleteProductDialogComponent)
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined) {
-        var flag = (result as Boolean);
-        if (flag) {
-          this.productsService.deleteProduct(id).subscribe({
-            next: response => {
-              console.log(`product deleted`);
-            },
-          });
+    dialogRef.afterClosed().subscribe({
+      next: result => {
+        if (result !== undefined) {
+          const flag = (result as Boolean);
+          if (flag) {
+            this.productsService.deleteProduct(id).subscribe({
+              next: response => {
+                console.log(`product deleted`);
+              },
+            });
+          }
         }
-      }
+      },
+      error: (e: HttpErrorResponse) => {
+        this.showErrorDialog(e);
+        return;
+      },
     });
   }
 

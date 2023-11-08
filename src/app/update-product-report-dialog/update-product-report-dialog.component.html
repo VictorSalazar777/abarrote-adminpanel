@@ -1,1 +1,24 @@
-<p>update-product-report-dialog works!</p>
+<h1 mat-dialog-title>Actualizar Reporte de Producto</h1>
+<div mat-dialog-content>
+
+  <form>
+    <p>Categoría: {{data.categoryName}}</p>
+    <p>Product: {{data.productName}}</p>
+    <p>
+      <mat-form-field>
+        <mat-label>Precio</mat-label>
+        <input matInput [(ngModel)]="data.productReport.price" name="price">
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field>
+        <mat-label>Nombre</mat-label>
+        <input matInput [(ngModel)]="data.productReport.oldPrice" name="oldPrice">
+      </mat-form-field>
+    </p>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-button [mat-dialog-close]="data.productReport">Actualizar</button>
+</div>

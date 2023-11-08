@@ -28,7 +28,7 @@ import {Product} from "../model/product";
 })
 export class CreateProductDialogComponent {
 
-  public product: Product = {id: 0, name: '', categoryId: 0}
+  public product: Product = {id: 0, name: '', categoryId: 0, price: 0}
 
   constructor(
     public dialogRef: MatDialogRef<CreateProductDialogComponent>,
